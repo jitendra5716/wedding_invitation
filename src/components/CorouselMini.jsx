@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
@@ -42,44 +42,51 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-const CorouselMini = () => (
-  <div className="mates-carousel">
-    <Carousel
-      arrows
-      infinite={false}
-      dots={false}
-      slidesToShow={5}
-      slidesToScroll={1}
-      prevArrow={<CustomPrevArrow />}
-      nextArrow={<CustomNextArrow />}
-      responsive={[
-        {
-          breakpoint: 1200,
-          settings: { slidesToShow: 4, slidesToScroll: 1 },
-        },
-        {
-          breakpoint: 992,
-          settings: { slidesToShow: 2, slidesToScroll: 1 },
-        },
-        {
-          breakpoint: 768,
-          settings: { slidesToShow: 1, slidesToScroll: 1 },
-        },
-        {
-          breakpoint: 576,
-          settings: { slidesToShow: 1, slidesToScroll: 1 },
-        },
-      ]}
-    >
-      {galleryImages.map((src, index) => (
-        <div key={`${src}-${index}`} className="mates-carousel__slide">
-          <div className="mates-carousel__card">
-            <img src={src} alt={`gallery-${index + 1}`} className="mates-carousel__image" />
+const CorouselMini = () => {
+  const [slidesToShow, setSlidesToShow] = useState(5);
+
+  useEffect(() => {
+    const updateSlides = () => {
+      const width = window.innerWidth;
+      if (width <= 576) {
+        setSlidesToShow(1);
+      } else if (width <= 768) {
+        setSlidesToShow(1);
+      } else if (width <= 992) {
+        setSlidesToShow(2);
+      } else if (width <= 1200) {
+        setSlidesToShow(3);
+      } else {
+        setSlidesToShow(5);
+      }
+    };
+
+    updateSlides();
+    window.addEventListener('resize', updateSlides);
+    return () => window.removeEventListener('resize', updateSlides);
+  }, []);
+
+  return (
+    <div className="mates-carousel">
+      <Carousel
+        arrows
+        infinite={false}
+        dots={false}
+        slidesToShow={slidesToShow}
+        slidesToScroll={1}
+        prevArrow={<CustomPrevArrow />}
+        nextArrow={<CustomNextArrow />}
+      >
+        {galleryImages.map((src, index) => (
+          <div key={`${src}-${index}`} className="mates-carousel__slide">
+            <div className="mates-carousel__card">
+              <img src={src} alt={`gallery-${index + 1}`} className="mates-carousel__image" />
+            </div>
           </div>
-        </div>
-      ))}
-    </Carousel>
-  </div>
-);
+        ))}
+      </Carousel>
+    </div>
+  );
+};
 
 export default CorouselMini;
