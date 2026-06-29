@@ -572,7 +572,7 @@ section[id] {
 
 .mates-carousel__image {
   width: 100%;
-  height: 420px;
+  height: 720px;
   object-fit: cover;
   display: block;
 }
@@ -605,7 +605,7 @@ section[id] {
 
 @media (max-width: 768px) {
   .mates-carousel__image {
-    height: 360px;
+    height: 620px;
   }
 }
 
@@ -619,7 +619,7 @@ section[id] {
   }
 
   .mates-carousel__image {
-    height: 320px;
+    height: 520px;
   }
 }
 
